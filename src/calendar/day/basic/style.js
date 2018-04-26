@@ -24,8 +24,19 @@ export default function styleConstructor(theme={}) {
     },
     selected: {
       backgroundColor: appStyle.selectedDayBackgroundColor,
+        borderColor: appStyle.selectedDayBorderColor,
+        borderWidth: appStyle.selectedDayBorderWidth,
       borderRadius: 16
     },
+      itsNow: {
+          backgroundColor: appStyle.itsNowDayBackgroundColor,
+          borderColor: appStyle.itsNowDayBorderColor,
+          borderWidth: appStyle.itsNowDayBorderWidth,
+          borderRadius: 16,
+      },
+      itsNowText: {
+          color: appStyle.itsNowDayTextColor
+      },
     todayText: {
       color: appStyle.todayTextColor
     },

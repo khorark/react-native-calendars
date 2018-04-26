@@ -49,6 +49,7 @@ class Day extends Component {
       if (this.props.marking && nextProps.marking) {
         markingChanged = (!(
           this.props.marking.marked === nextProps.marking.marked
+            && this.props.marking.itsNow === nextProps.marking.itsNow
           && this.props.marking.selected === nextProps.marking.selected
           && this.props.marking.selectedColor === nextProps.marking.selectedColor
           && this.props.marking.dotColor === nextProps.marking.dotColor
@@ -97,6 +98,16 @@ class Day extends Component {
     } else if (this.props.state === 'today') {
       textStyle.push(this.style.todayText);
     }
+
+      if (marking.itsNow) {
+          containerStyle.push(this.style.itsNow);
+          dotStyle.push(this.style.selectedDot);
+          textStyle.push(this.style.itsNowText);
+      } else if (typeof marking.disabled !== 'undefined' ? marking.disabled : this.props.state === 'disabled') {
+          textStyle.push(this.style.disabledText);
+      } else if (this.props.state === 'today') {
+          textStyle.push(this.style.todayText);
+      }
 
     return (
       <TouchableOpacity
