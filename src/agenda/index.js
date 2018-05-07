@@ -5,6 +5,7 @@ import {
   Dimensions,
   Animated,
   ViewPropTypes,
+    TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
@@ -49,6 +50,8 @@ export default class AgendaView extends Component {
     renderDay: PropTypes.func,
     // specify how agenda knob should look like
     renderKnob: PropTypes.func,
+      // specify how agenda knobClose should look like
+      renderKnobClose: PropTypes.func,
     // specify how empty date content with no items should be rendered
     renderEmptyDay: PropTypes.func,
     // specify what should be rendered instead of ActivityIndicator
@@ -76,6 +79,8 @@ export default class AgendaView extends Component {
 
     // Hide knob button. Default = false
     hideKnob: PropTypes.bool,
+      // Hide knobClose button. Default = false
+      hideKnobClose: PropTypes.bool,
     // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
     monthFormat: PropTypes.string
   };
@@ -233,6 +238,16 @@ export default class AgendaView extends Component {
     this.calendar.scrollToDay(this.state.selectedDay, this.calendarOffset() + 1, true);
   }
 
+    knobClosePress() {
+        this.setScrollPadPosition(this.initialScrollPadPosition(), true);
+        this.setState({
+            calendarScrollable: false
+        });
+        if (this.props.onCalendarToggled) {
+            this.props.onCalendarToggled(false);
+        }
+    }
+
   _chooseDayFromCalendar(d) {
     this.chooseDay(d, !this.state.calendarScrollable);
   }
@@ -359,6 +374,7 @@ export default class AgendaView extends Component {
     };
 
     let knob = (<View style={this.styles.knobContainer}/>);
+      let knobClose = (<View style={this.styles.knobCloseContainer}/>);
 
     if (!this.props.hideKnob) {
       const knobView = this.props.renderKnob ? this.props.renderKnob() : (<View style={this.styles.knob}/>);
@@ -368,6 +384,20 @@ export default class AgendaView extends Component {
         </View>
       );
     }
+
+      if (!this.props.hideKnobClose) {
+          const knobCloseView = this.props.renderKnobClose ? this.props.renderKnobClose() : (<View style={this.styles.knobClose}/>);
+
+          knobClose = this.state.calendarScrollable
+              ? (
+                  <TouchableOpacity onPress={() => this.knobClosePress()} style={this.styles.knobCloseContainer}>
+                      <View ref={(c) => this.knobClose = c} style={{ transform: [{rotate: '180deg'}], }}>
+                          {knobCloseView}
+                      </View>
+                  </TouchableOpacity>
+              )
+              : null;
+      }
 
     return (
       <View onLayout={this.onLayout} style={[this.props.style, {flex: 1, overflow: 'hidden'}]}>
@@ -401,6 +431,7 @@ export default class AgendaView extends Component {
             />
           </Animated.View>
           {knob}
+            {knobClose}
         </Animated.View>
         <Animated.View style={weekdaysStyle}>
           {weekDaysNames.map((day) => (

@@ -6,9 +6,10 @@ const STYLESHEET_ID = 'stylesheet.agenda.main';
 
 export default function styleConstructor(theme = {}) {
   const appStyle = {...defaultStyle, ...theme};
-  const { knob, weekdays } = platformStyles(appStyle);
+  const { knob, weekdays, knobClose } = platformStyles(appStyle);
   return StyleSheet.create({
     knob,
+      knobClose,
     weekdays,
     header: {
       overflow: 'hidden',
@@ -28,10 +29,20 @@ export default function styleConstructor(theme = {}) {
       left: 0,
       right: 0,
       height: 24,
-      bottom: 0,
+      bottom: -7,
       alignItems: 'center',
       backgroundColor: appStyle.calendarBackground
     },
+      knobCloseContainer: {
+          flex: 1,
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          height: 24,
+          bottom: -5,
+          alignItems: 'center',
+          backgroundColor: appStyle.calendarBackground
+      },
     weekday: {
       width: 32,
       textAlign: 'center',

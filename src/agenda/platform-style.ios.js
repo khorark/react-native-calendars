@@ -7,6 +7,13 @@ export default function platformStyles(appStyle) {
       borderRadius: 3,
       backgroundColor: appStyle.agendaKnobColor
     },
+      knobClose: {
+          width: 38,
+          height: 7,
+          marginTop: 10,
+          borderRadius: 3,
+          backgroundColor: appStyle.agendaKnobColor
+      },
     weekdays: {
       position: 'absolute',
       left: 0,
