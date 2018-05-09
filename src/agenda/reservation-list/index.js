@@ -7,13 +7,11 @@ import {
 import Reservation from './reservation';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
-import Moment from 'moment';
-import { extendMoment } from 'moment-range';
+import moment from 'moment';
 
 import dateutils from '../../dateutils';
 import styleConstructor from './style';
 
-const moment = extendMoment(Moment);
 
 class ReactComp extends Component {
   static propTypes = {
@@ -44,14 +42,23 @@ class ReactComp extends Component {
     this.state = {
       reservations: []
     };
+    const cellHeight = 25;
+    const oneMinuteHeight = cellHeight / 30;
+    const nowHour = moment().format('HH');
+    const nowMinute = moment().format('mm');
+    const top = (nowHour * oneMinuteHeight * 60) + (oneMinuteHeight * nowMinute) + cellHeight * 2;
     this.heights=[];
     this.selectedDay = this.props.selectedDay;
     this.scrollOver = true;
-    this.scrollPosition = null;
+    this.scrollPosition = top;
   }
 
   componentWillMount() {
     this.updateDataSource(this.getReservations(this.props).reservations);
+  }
+
+  componentDidMount() {
+    setTimeout(() => this.list.scrollToOffset({offset: this.scrollPosition, animated: true}), 500);
   }
 
   updateDataSource(reservations) {
@@ -63,11 +70,6 @@ class ReactComp extends Component {
   updateReservations(props) {
     const reservations = this.getReservations(props);
     if (this.list && !dateutils.sameDate(props.selectedDay, this.selectedDay)) {
-      let scrollPosition = 0;
-      for (let i = 0; i < reservations.scrollPosition; i++) {
-        scrollPosition += this.heights[i] || 0;
-      }
-      this.scrollOver = false;
       this.list.scrollToOffset({offset: this.scrollPosition, animated: true});
     }
     this.selectedDay = props.selectedDay;
