@@ -45,3 +45,5 @@ export const itsNowDayBackgroundColor = '#FF8A6E';
 export const itsNowDayBorderColor = '#FF8A6E';
 export const itsNowDayBorderWidth = 0;
 export const itsNowDayTextColor = '#fff';
+export const itsNowDaySelectedBackgroundColor = '#fff';
+export const itsNowDaySelectedTextColor = '#FF8A6E';
