@@ -43,6 +43,7 @@ class ReactComp extends Component {
       reservations: []
     };
     const cellHeight = 25;
+    const offsetTopPadding = 100;
     const oneMinuteHeight = cellHeight / 30;
     const nowHour = moment().format('HH');
     const nowMinute = moment().format('mm');
@@ -50,7 +51,7 @@ class ReactComp extends Component {
     this.heights=[];
     this.selectedDay = this.props.selectedDay;
     this.scrollOver = true;
-    this.scrollPosition = top;
+    this.scrollPosition = top - offsetTopPadding > 0 ? top - offsetTopPadding : 0;
   }
 
   componentWillMount() {
